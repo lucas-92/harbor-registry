@@ -1,0 +1,41 @@
+name: Install Harbor
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  harbor:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Set up Docker
+      uses: docker/setup-buildx-action@v1
+
+    - name: Install Docker Compose
+      run: |
+        sudo apt update
+        sudo apt install docker-compose -y
+    
+    - name: Configure Harbor
+      run: |
+        cd harbor
+        cp harbor.yml.tmpl harbor.yml
+        sed -i 's/hostname: reg.mydomain.com/hostname: localhost/g' harbor.yml
+        sed -i 's/https:/https:\n  enabled: false/g' harbor.yml
+
+    - name: Install Harbor
+      run: |
+        cd harbor
+        sudo ./install.sh
+
+    - name: Docker Login
+      run: |
+        docker login localhost -u admin -p Harbor12345
+
+    - name: Build and Push Image to Harbor
+      run: |
+        docker build -t localhost/library/my-app:latest .
+        docker push localhost/library/my-app:latest
+
