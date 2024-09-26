@@ -69,6 +69,7 @@ helm install harbor harbor/harbor --namespace harbor
 kubectl get pods -n harbor
 ```
 Certifique-se de que todos os pods estejam no estado Running ou Completed.
+
 7. Configurar o Ingress (Opcional)
 - Se você configurou o Harbor para usar um Ingress e apontou para um domínio específico (como harbor.yourdomain.com), você precisa configurar o DNS para apontar para o IP do serviço Ingress (ou LoadBalancer, dependendo do seu setup).
 
@@ -77,6 +78,7 @@ Certifique-se de que todos os pods estejam no estado Running ou Completed.
 kubectl get svc -n harbor
 ```
 Agora, atualize o seu DNS com o IP do serviço Ingress.
+
 8. Acessar o Harbor
 - Depois que a instalação estiver completa e o DNS apontado para o IP do Ingress, você poderá acessar o Harbor através do navegador no domínio configurado.
 - - O nome de usuário padrão do administrador é admin.
